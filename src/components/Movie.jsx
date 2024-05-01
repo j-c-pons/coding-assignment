@@ -6,8 +6,8 @@ import placeholder from "../assets/not-found-500X750.jpeg";
 const Movie = ({ movie, viewTrailer, closeCard }) => {
   //   const state = useSelector((state) => state);
   //   const { starred, watchLater } = state;
-  const starred = useSelector((state) => state.starred.starredMovies);
-  const watchLater = useSelector((state) => state.watchLater.watchLaterMovies);
+  const starred = useSelector((state) => state.starred);
+  const watchLater = useSelector((state) => state.watchLater);
 
   const { starMovie, unstarMovie } = starredSlice.actions;
   const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions;
@@ -15,7 +15,7 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
   const dispatch = useDispatch();
 
   const myClickHandler = (e) => {
-    if (!e) var e = window.event;
+    if (!e) e = window.event;
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
     e.target.parentElement.parentElement.classList.remove("opened");

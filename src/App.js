@@ -32,7 +32,7 @@ const App = () => {
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const closeModal = () => setOpen(false);
+  // const closeModal = () => setOpen(false);
 
   const closeCard = () => {};
 
@@ -83,7 +83,6 @@ const App = () => {
 
   useEffect(() => {
     getMovies();
-    console.log("test");
   }, [getMovies]);
 
   return (
@@ -95,7 +94,7 @@ const App = () => {
       />
 
       <div className="container">
-        {videoKey ? (
+        {videoKey && isOpen ? (
           <YouTubePlayer videoKey={videoKey} />
         ) : (
           <div style={{ padding: "30px" }}>
