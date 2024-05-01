@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Routes,
   Route,
@@ -51,18 +51,19 @@ const App = () => {
     getSearchResults(query);
   };
 
-  const getMovies = () => {
+  const getMovies = useCallback(() => {
     if (searchQuery) {
       dispatch(fetchMovies(`${ENDPOINT_SEARCH}&query=${searchQuery}`));
     } else {
       dispatch(fetchMovies(ENDPOINT_DISCOVER));
     }
-  };
+  }, [dispatch, searchQuery]);
 
   const viewTrailer = (movie) => {
     getMovie(movie.id);
     if (!videoKey) setOpen(true);
     setOpen(true);
+    console.log(videoKey);
   };
 
   const getMovie = async (id) => {
@@ -76,12 +77,14 @@ const App = () => {
         (vid) => vid.type === "Trailer"
       );
       setVideoKey(trailer ? trailer.key : videoData.videos.results[0].key);
+      console.log(videoKey);
     }
   };
 
   useEffect(() => {
     getMovies();
-  }, []);
+    console.log("test");
+  }, [getMovies]);
 
   return (
     <div className="App">
