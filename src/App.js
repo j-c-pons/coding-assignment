@@ -63,7 +63,6 @@ const App = () => {
     getMovie(movie.id);
     if (!videoKey) setOpen(true);
     setOpen(true);
-    console.log(videoKey);
   };
 
   const getMovie = async (id) => {
@@ -94,7 +93,7 @@ const App = () => {
       />
 
       <div className="container">
-        {videoKey && isOpen ? (
+        {videoKey ? (
           <YouTubePlayer videoKey={videoKey} />
         ) : (
           <div style={{ padding: "30px" }}>
