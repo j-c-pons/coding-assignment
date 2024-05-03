@@ -1,18 +1,15 @@
 import Movie from "./Movie";
 import "../styles/movies.scss";
+import { useFetchMovies } from "../hooks/useFetchMovies";
+import { useSelector } from "react-redux";
 
-const Movies = ({ movies, viewTrailer, closeCard }) => {
+const Movies = () => {
+  const movies = useSelector((state) => state.movies.movies);
+
   return (
-    <div data-testid="movies">
-      {movies.movies.results?.map((movie) => {
-        return (
-          <Movie
-            movie={movie}
-            key={movie.id}
-            viewTrailer={viewTrailer}
-            closeCard={closeCard}
-          />
-        );
+    <div data-testid="movies" className="movie-grid">
+      {movies.results?.map((movie) => {
+        return <Movie movie={movie} key={movie.id} />;
       })}
     </div>
   );

@@ -1,10 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useFetchMovies } from "../hooks/useFetchMovies";
 
 import "../styles/header.scss";
 
-const Header = ({ searchMovies }) => {
+const Header = () => {
   const { starredMovies } = useSelector((state) => state.starred);
+  const { searchMovies } = useFetchMovies();
 
   return (
     <header>

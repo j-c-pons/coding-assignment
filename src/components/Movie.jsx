@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from "react";
+
 import starredSlice from "../data/starredSlice";
 import watchLaterSlice from "../data/watchLaterSlice";
 import placeholder from "../assets/not-found-500X750.jpeg";
-
-const Movie = ({ movie, viewTrailer, closeCard }) => {
+import playerSlice from "../data/trailerSlice";
+const Movie = ({ movie }) => {
   //   const state = useSelector((state) => state);
   //   const { starred, watchLater } = state;
   const starred = useSelector((state) => state.starred);
@@ -11,6 +13,7 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
 
   const { starMovie, unstarMovie } = starredSlice.actions;
   const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions;
+  const { setMovieId } = playerSlice.actions;
 
   const dispatch = useDispatch();
 
@@ -21,8 +24,12 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
     e.target.parentElement.parentElement.classList.remove("opened");
   };
 
+  const onViewTrailer = useCallback(() => {
+    dispatch(setMovieId(movie.id));
+  }, [dispatch, setMovieId, movie]);
+
   return (
-    <div className="wrapper col-3 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+    <div className="wrapper">
       <div
         className="card"
         onClick={(e) => e.currentTarget.classList.add("opened")}
@@ -95,7 +102,7 @@ const Movie = ({ movie, viewTrailer, closeCard }) => {
             <button
               type="button"
               className="btn btn-dark"
-              onClick={() => viewTrailer(movie)}
+              onClick={() => onViewTrailer(movie)}
             >
               View Trailer
             </button>
