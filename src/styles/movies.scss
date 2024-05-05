@@ -121,7 +121,7 @@
     }
   }
 
-  img {
+  :not(.spinner-img) {
     width: 100%;
     height: auto;
   }
@@ -299,4 +299,15 @@
   @media (max-width: 720px) {
     background-color: transparent;
   }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  min-height: 100px;
+}
+
+.spinner-img {
+  width: 75px;
+  height: 75px;
 }

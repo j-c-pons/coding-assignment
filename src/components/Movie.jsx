@@ -6,8 +6,6 @@ import watchLaterSlice from "../data/watchLaterSlice";
 import placeholder from "../assets/not-found-500X750.jpeg";
 import playerSlice from "../data/trailerSlice";
 const Movie = ({ movie }) => {
-  //   const state = useSelector((state) => state);
-  //   const { starred, watchLater } = state;
   const starred = useSelector((state) => state.starred);
   const watchLater = useSelector((state) => state.watchLater);
 

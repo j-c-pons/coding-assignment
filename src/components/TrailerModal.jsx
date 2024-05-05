@@ -13,7 +13,7 @@ function TrailerModal() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [videoKey, setVideoKey] = useState(null);
-  const [error, setError] = useState(false);
+  const [fetchFail, setFetchFail] = useState(false);
 
   const getMovie = async (id) => {
     const URL = `${ENDPOINT}/movie/${id}?api_key=${API_KEY}&append_to_response=videos`;
@@ -60,7 +60,7 @@ function TrailerModal() {
         setVideoKey(key);
       })
       .catch(() => {
-        setError(true);
+        setFetchFail(true);
         setIsLoading(false);
       });
 
@@ -81,7 +81,7 @@ function TrailerModal() {
           </div>
         ) : isLoading ? (
           <img src={spinner} alt="spinner" />
-        ) : error ? (
+        ) : fetchFail ? (
           <div className="modal-content-wrapper">
             <h6>Something went wrong, please try again later</h6>
           </div>

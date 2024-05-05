@@ -1,12 +1,38 @@
-import { Link, NavLink } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  useNavigate,
+  useSearchParams,
+  createSearchParams,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useFetchMovies } from "../hooks/useFetchMovies";
+import { useDispatchMovies } from "../hooks/useDispatchMovies";
+import debounce from "lodash.debounce";
 
 import "../styles/header.scss";
+import { useCallback } from "react";
 
 const Header = () => {
   const { starredMovies } = useSelector((state) => state.starred);
-  const { searchMovies } = useFetchMovies();
+  const dispatchMovies = useDispatchMovies();
+  const [, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const searchMovies = useCallback(
+    (query) => {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      query === ""
+        ? navigate("/")
+        : setSearchParams(createSearchParams({ search: query }));
+
+      dispatchMovies(query);
+    },
+    [dispatchMovies, navigate, setSearchParams]
+  );
+
+  const debounceKeyUp = debounce((e) => {
+    searchMovies(e); // debounce to limit the number of request when the user fill in the input field
+  }, 350);
 
   return (
     <header>
@@ -35,11 +61,11 @@ const Header = () => {
       </nav>
 
       <div className="input-group rounded">
-        <Link to="/" onClick={(e) => searchMovies("")} className="search-link">
+        <Link to="/" className="search-link">
           <input
             type="search"
             data-testid="search-movies"
-            onKeyUp={(e) => searchMovies(e.target.value)}
+            onKeyUp={(e) => debounceKeyUp(e.target.value)}
             className="form-control rounded"
             placeholder="Search movies..."
             aria-label="Search movies"
