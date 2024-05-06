@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import "reactjs-popup/dist/index.css";
 import Header from "./components/Header";
 import Movies from "./components/Movies";
@@ -8,11 +10,12 @@ import TrailerModal from "./components/TrailerModal";
 import "./app.scss";
 
 const App = () => {
+  const movieId = useSelector((state) => state.trailer?.movieId);
+
   return (
     <div className="App">
       <Header />
       <div className="container">
-        <TrailerModal />
         <Routes>
           <Route path="/" element={<Movies />} />
           <Route path="/starred" element={<Starred />} />
@@ -23,6 +26,7 @@ const App = () => {
           />
         </Routes>
       </div>
+      {movieId && <TrailerModal />}
     </div>
   );
 };

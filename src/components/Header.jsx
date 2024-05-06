@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import {
   Link,
   NavLink,
@@ -6,11 +7,12 @@ import {
   createSearchParams,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 import { useDispatchMovies } from "../hooks/useDispatchMovies";
+
 import debounce from "lodash.debounce";
 
 import "../styles/header.scss";
-import { useCallback } from "react";
 
 const Header = () => {
   const { starredMovies } = useSelector((state) => state.starred);

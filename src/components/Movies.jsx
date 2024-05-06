@@ -1,46 +1,42 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+
 import Movie from "./Movie";
 import { useDispatchMovies } from "../hooks/useDispatchMovies";
-import { useSelector } from "react-redux";
+
 import throttle from "lodash.throttle";
-import { useSearchParams } from "react-router-dom";
 
 import spinner from "../assets/spinner.gif";
 import "../styles/movies.scss";
 
 const Movies = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const dispatchMovies = useDispatchMovies();
-
   const movies = useSelector((state) => state.movies.movies);
+  const moviesEmpty = useSelector((state) => state.movies.moviesEmpty);
   const hasNext = useSelector((state) => state.movies.hasNext);
   const pageCount = useSelector((state) => state.movies.page);
+  const fetchStatus = useSelector((state) => state.fetchStatus);
 
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search");
 
   const handleScroll = useCallback(async () => {
     if (checkScrollToBottom() && hasNext) {
-      setIsLoading(true);
       let query = searchQuery ? searchQuery : "";
       await dispatchMovies(query, pageCount + 1);
-      setIsLoading(false);
     }
   }, [hasNext, dispatchMovies, pageCount, searchQuery]);
 
   const checkScrollToBottom = () => {
-    const scrolledToBottom =
-      window.innerHeight + window.scrollY >= document.body.offsetHeight;
-    if (scrolledToBottom) return true;
-    return false;
+    return window.innerHeight + window.scrollY >= document.body.offsetHeight;
   };
 
   useEffect(() => {
     searchParams.get("search")
       ? dispatchMovies(searchParams.get("search"))
       : dispatchMovies();
-  }, []);
+  }, [dispatchMovies, searchParams]);
 
   useEffect(() => {
     const onScroll = throttle(() => {
@@ -60,9 +56,10 @@ const Movies = () => {
         {movies?.map((movie) => {
           return <Movie movie={movie} key={movie.id} />;
         })}
+        {moviesEmpty && <div>No result found</div>}
       </div>
 
-      {isLoading && (
+      {fetchStatus === "loading" && (
         <div className="spinner-container">
           <img src={spinner} className="spinner-img" alt="spinner" />
         </div>

@@ -100,6 +100,7 @@ const Movie = ({ movie }) => {
             <button
               type="button"
               className="btn btn-dark"
+              data-testid="watch-trailer"
               onClick={() => onViewTrailer(movie)}
             >
               View Trailer

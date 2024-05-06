@@ -33,5 +33,5 @@ it("movies starred and saved to watch later", async () => {
     expect(screen.getByTestId("remove-watch-later")).toBeInTheDocument();
   });
 
-  await userEvent.click(screen.getAllByTestId("remove-watch-later"));
+  await userEvent.click(screen.getAllByTestId("remove-watch-later")[0]);
 });
